@@ -1,84 +1,337 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Daily Task Wizard</title>
-    <meta name="description" content="Beautiful To-Do List Application" />
-    <meta name="author" content="Daily Task Wizard" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
-    <link rel="stylesheet" href="/todo-app.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced To-Do List</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-    <meta property="og:title" content="Daily Task Wizard" />
-    <meta property="og:description" content="Beautiful To-Do List Application" />
-    <meta property="og:type" content="website" />
-  </head>
+        body {
+            background: linear-gradient(135deg, #74ebd5, #acb6e5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-  <body>
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 2rem;
+        }
+
+        .input-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        #taskInput, #dueDate {
+            padding: 12px;
+            border: 2px solid #dfe6e9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        #taskInput:focus, #dueDate:focus {
+            border-color: #6c5ce7;
+            outline: none;
+        }
+
+        #taskInput {
+            flex: 2;
+        }
+
+        #dueDate {
+            flex: 1;
+        }
+
+        button {
+            padding: 12px 20px;
+            background: #6c5ce7;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s, transform 0.1s;
+        }
+
+        button:hover {
+            background: #5a4bc7;
+            transform: translateY(-2px);
+        }
+
+        .task-list {
+            list-style: none;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 8px;
+            background: #f8f9fa;
+            margin-bottom: 10px;
+            transition: transform 0.2s;
+        }
+
+        .task-item:hover {
+            transform: scale(1.02);
+        }
+
+        .task-item.completed .task-text {
+            text-decoration: line-through;
+            color: #636e72;
+        }
+
+        .task-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .task-text {
+            font-size: 16px;
+            color: #2d3436;
+        }
+
+        .due-date {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .task-actions button {
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+
+        .delete-btn {
+            background: #e74c3c;
+        }
+
+        .delete-btn:hover {
+            background: #c0392b;
+        }
+
+        .edit-btn {
+            background: #f39c12;
+        }
+
+        .edit-btn:hover {
+            background: #e67e22;
+        }
+
+        .checkbox {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .filter-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .filter-section select {
+            padding: 10px;
+            border-radius: 8px;
+            border: 2px solid #dfe6e9;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            .input-section {
+                flex-direction: column;
+            }
+
+            #taskInput, #dueDate, button {
+                width: 100%;
+            }
+
+            .filter-section {
+                flex-direction: column;
+            }
+
+            .filter-section select {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
     <div class="container">
-      <div class="todo-app">
-        <header class="app-header">
-          <h1 class="app-title">
-            <span class="title-icon">✨</span>
-            Daily Task Wizard
-          </h1>
-          <p class="app-subtitle">Transform your day, one task at a time</p>
-        </header>
-
+        <h1>Advanced To-Do List</h1>
         <div class="input-section">
-          <div class="input-container">
-            <input 
-              type="text" 
-              id="taskInput" 
-              class="task-input" 
-              placeholder="What needs to be done today?"
-              maxlength="100"
-            >
-            <button id="addBtn" class="add-btn">
-              <span class="btn-icon">+</span>
-              Add Task
-            </button>
-          </div>
+            <input type="text" id="taskInput" placeholder="Add a new task...">
+            <input type="date" id="dueDate">
+            <button onclick="addTask()">Add Task</button>
         </div>
-
-        <div class="stats-section">
-          <div class="stat-item">
-            <span class="stat-number" id="totalTasks">0</span>
-            <span class="stat-label">Total</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number" id="completedTasks">0</span>
-            <span class="stat-label">Completed</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number" id="pendingTasks">0</span>
-            <span class="stat-label">Pending</span>
-          </div>
+        <div class="filter-section">
+            <select id="filter" onchange="filterTasks()">
+                <option value="all">All Tasks</option>
+                <option value="completed">Completed</option>
+                <option value="pending">Pending</option>
+            </select>
+            <button onclick="clearCompleted()">Clear Completed</button>
         </div>
-
-        <div class="tasks-section">
-          <div class="section-header">
-            <h2 class="section-title">Your Tasks</h2>
-            <div class="filter-buttons">
-              <button class="filter-btn active" data-filter="all">All</button>
-              <button class="filter-btn" data-filter="pending">Pending</button>
-              <button class="filter-btn" data-filter="completed">Completed</button>
-            </div>
-          </div>
-          
-          <ul id="taskList" class="task-list">
-            <!-- Tasks will be dynamically added here -->
-          </ul>
-
-          <div id="emptyState" class="empty-state">
-            <div class="empty-icon">📝</div>
-            <h3>No tasks yet</h3>
-            <p>Add your first task above to get started!</p>
-          </div>
-        </div>
-      </div>
+        <ul class="task-list" id="taskList"></ul>
     </div>
 
-    <script src="/todo-app.js"></script>
-  </body>
+    <script>
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+        function saveTasks() {
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+            renderTasks();
+        }
+
+        function addTask() {
+            const taskInput = document.getElementById('taskInput');
+            const dueDateInput = document.getElementById('dueDate');
+            const taskText = taskInput.value.trim();
+            const dueDate = dueDateInput.value;
+
+            if (taskText === '') return;
+
+            tasks.push({
+                id: Date.now(),
+                text: taskText,
+                dueDate: dueDate,
+                completed: false
+            });
+
+            taskInput.value = '';
+            dueDateInput.value = '';
+            saveTasks();
+        }
+
+        function deleteTask(id) {
+            tasks = tasks.filter(task => task.id !== id);
+            saveTasks();
+        }
+
+        function toggleTask(id) {
+            tasks = tasks.map(task => 
+                task.id === id ? { ...task, completed: !task.completed } : task
+            );
+            saveTasks();
+        }
+
+        function editTask(id) {
+            const newText = prompt('Edit task:', tasks.find(task => task.id === id).text);
+            if (newText && newText.trim()) {
+                tasks = tasks.map(task => 
+                    task.id === id ? { ...task, text: newText.trim() } : task
+                );
+                saveTasks();
+            }
+        }
+
+        function clearCompleted() {
+            tasks = tasks.filter(task => !task.completed);
+            saveTasks();
+        }
+
+        function filterTasks() {
+            const filter = document.getElementById('filter').value;
+            renderTasks(filter);
+        }
+
+        function renderTasks(filter = 'all') {
+            const taskList = document.getElementById('taskList');
+            taskList.innerHTML = '';
+
+            let filteredTasks = tasks;
+            if (filter === 'completed') {
+                filteredTasks = tasks.filter(task => task.completed);
+            } else if (filter === 'pending') {
+                filteredTasks = tasks.filter(task => !task.completed);
+            }
+
+            filteredTasks.forEach(task => {
+                const taskItem = document.createElement('li');
+                taskItem.className = `task-item ${task.completed ? 'completed' : ''}`;
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.className = 'checkbox';
+                checkbox.checked = task.completed;
+                checkbox.onclick = () => toggleTask(task.id);
+
+                const taskContent = document.createElement('div');
+                taskContent.className = 'task-content';
+
+                const taskText = document.createElement('span');
+                taskText.className = 'task-text';
+                taskText.textContent = task.text;
+
+                const dueDate = document.createElement('span');
+                dueDate.className = 'due-date';
+                dueDate.textContent = task.dueDate ? `Due: ${new Date(task.dueDate).toLocaleDateString()}` : '';
+
+                const taskActions = document.createElement('div');
+                taskActions.className = 'task-actions';
+
+                const editBtn = document.createElement('button');
+                editBtn.className = 'edit-btn';
+                editBtn.textContent = 'Edit';
+                editBtn.onclick = () => editTask(task.id);
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'delete-btn';
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.onclick = () => deleteTask(task.id);
+
+                taskContent.appendChild(taskText);
+                taskContent.appendChild(dueDate);
+                taskActions.appendChild(editBtn);
+                taskActions.appendChild(deleteBtn);
+                taskItem.appendChild(checkbox);
+                taskItem.appendChild(taskContent);
+                taskItem.appendChild(taskActions);
+
+                taskList.appendChild(taskItem);
+            });
+        }
+
+        document.getElementById('taskInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addTask();
+        });
+
+        renderTasks();
+    </script>
+</body>
 </html>
