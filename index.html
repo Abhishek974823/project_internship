@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily Task Wizard</title>
+    <meta name="description" content="Beautiful To-Do List Application" />
+    <meta name="author" content="Daily Task Wizard" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="/todo-app.css">
+
+    <meta property="og:title" content="Daily Task Wizard" />
+    <meta property="og:description" content="Beautiful To-Do List Application" />
+    <meta property="og:type" content="website" />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="todo-app">
+        <header class="app-header">
+          <h1 class="app-title">
+            <span class="title-icon">✨</span>
+            Daily Task Wizard
+          </h1>
+          <p class="app-subtitle">Transform your day, one task at a time</p>
+        </header>
+
+        <div class="input-section">
+          <div class="input-container">
+            <input 
+              type="text" 
+              id="taskInput" 
+              class="task-input" 
+              placeholder="What needs to be done today?"
+              maxlength="100"
+            >
+            <button id="addBtn" class="add-btn">
+              <span class="btn-icon">+</span>
+              Add Task
+            </button>
+          </div>
+        </div>
+
+        <div class="stats-section">
+          <div class="stat-item">
+            <span class="stat-number" id="totalTasks">0</span>
+            <span class="stat-label">Total</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" id="completedTasks">0</span>
+            <span class="stat-label">Completed</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" id="pendingTasks">0</span>
+            <span class="stat-label">Pending</span>
+          </div>
+        </div>
+
+        <div class="tasks-section">
+          <div class="section-header">
+            <h2 class="section-title">Your Tasks</h2>
+            <div class="filter-buttons">
+              <button class="filter-btn active" data-filter="all">All</button>
+              <button class="filter-btn" data-filter="pending">Pending</button>
+              <button class="filter-btn" data-filter="completed">Completed</button>
+            </div>
+          </div>
+          
+          <ul id="taskList" class="task-list">
+            <!-- Tasks will be dynamically added here -->
+          </ul>
+
+          <div id="emptyState" class="empty-state">
+            <div class="empty-icon">📝</div>
+            <h3>No tasks yet</h3>
+            <p>Add your first task above to get started!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/todo-app.js"></script>
+  </body>
+</html>
